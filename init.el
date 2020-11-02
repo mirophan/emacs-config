@@ -63,6 +63,19 @@
 (global-linum-mode t)               ;; Enable line numbers globally
 (delete-selection-mode 1)           ;; Typing/yanking will replace highlited text
 
+;; Elpy customisatino
+;; Enhance elpy-goto-definition to run rgrep if failed
+(defun goto-def-or-rgrep ()
+  "Go to definition of thing at point or do an rgrep in project if that fails"
+  (interactive)
+  (condition-case nil (elpy-goto-definition)
+    (error (elpy-rgrep-symbol (thing-at-point 'symbol)))))
+(define-key elpy-mode-map (kbd "M-.") 'goto-def-or-rgrep)
+
+
+
+;; User-defined init.el ends here
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
