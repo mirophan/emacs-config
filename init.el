@@ -63,7 +63,9 @@
 (global-linum-mode t)               ;; Enable line numbers globally
 (delete-selection-mode 1)           ;; Typing/yanking will replace highlited text
 (global-auto-revert-mode t)         ;; Refresh buffer whenever file changed (for git checkout)
-;; Elpy customisatino
+(add-hook 'dired-mode-hook 'auto-revert-mode) ;; Refresh dired buffer when file changed
+
+;; Elpy customisation
 ;; Enhance elpy-goto-definition to run rgrep if failed
 (defun goto-def-or-rgrep ()
   "Go to definition of thing at point or do an rgrep in project if that fails"
