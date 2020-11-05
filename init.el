@@ -62,7 +62,7 @@
 (setq inhibit-startup-message t)    ;; Hide the startup message
 (global-linum-mode t)               ;; Enable line numbers globally
 (delete-selection-mode 1)           ;; Typing/yanking will replace highlited text
-
+(global-auto-revert-mode t)         ;; Refresh buffer whenever file changed (for git checkout)
 ;; Elpy customisatino
 ;; Enhance elpy-goto-definition to run rgrep if failed
 (defun goto-def-or-rgrep ()
@@ -91,3 +91,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
