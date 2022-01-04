@@ -21,10 +21,15 @@
 
 (use-package ace-window
   :ensure t
-  :bind (("M-p" . ace-window)))
+  :bind (("M-o" . ace-window)))
 
 (use-package markdown-mode
   :ensure t)
+
+(use-package xclip
+  :ensure t
+  :init
+  (xclip-mode))
 
 ;; ===================================
 ;; Python IDE setup
@@ -60,7 +65,10 @@
 ;; Basic Customization
 ;; ===================================
 (setq inhibit-startup-message t)    ;; Hide the startup message
-(global-linum-mode t)               ;; Enable line numbers globally
+;; (global-linum-mode t)               ;; Enable line numbers globally (pre emacs v26)
+(when (version<= "26.0.50" emacs-version )
+  (global-display-line-numbers-mode))
+(setq select-enable-clipboard t)
 (delete-selection-mode 1)           ;; Typing/yanking will replace highlited text
 (global-auto-revert-mode t)         ;; Refresh buffer whenever file changed (for git checkout)
 (add-hook 'dired-mode-hook 'auto-revert-mode) ;; Refresh dired buffer when file changed
