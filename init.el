@@ -72,6 +72,8 @@
 (delete-selection-mode 1)           ;; Typing/yanking will replace highlited text
 (global-auto-revert-mode t)         ;; Refresh buffer whenever file changed (for git checkout)
 (add-hook 'dired-mode-hook 'auto-revert-mode) ;; Refresh dired buffer when file changed
+(setq dired-recursive-deletes 'always) ;; Single prompt when deleting recirsively in Dired
+(setq dired-recursive-copies 'always) ;;  Single prompt when copying recirsively in Dired
 
 ;; ===================================
 ;; Shortcuts
