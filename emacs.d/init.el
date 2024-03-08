@@ -36,8 +36,10 @@
 ;; ===================================
 (use-package elpy
   :ensure t
+  :init
+  (elpy-enable)
   :config
-  (elpy-enable))
+  (setq python-shell-completion-native-enable nil))
 
 (use-package flycheck
   :ensure t
@@ -47,7 +49,16 @@
 (use-package py-autopep8
   :ensure t
   :config
-  (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
+  (add-hook 'elpy-mode-hook 'py-autopep8-mode))
+
+;; Enable Mamba support
+(use-package conda
+  :ensure t
+  :config
+  (conda-env-initialize-interactive-shells)
+  :custom
+  (conda-anaconda-home "~/miniforge3")
+  (conda-env-home-directory "~/miniforge3"))
 
 
 ;; ===================================
@@ -113,7 +124,7 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
- '(package-selected-packages '(elpy eply use-package)))
+ '(package-selected-packages '(eply use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
