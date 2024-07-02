@@ -31,6 +31,11 @@
   :init
   (xclip-mode))
 
+(use-package clipetty
+  :ensure t
+  :hook
+  (after-init . global-clipetty-mode))
+
 (use-package csv-mode
   :ensure t
   :config
@@ -90,6 +95,8 @@
 (add-hook 'dired-mode-hook 'auto-revert-mode) ;; Refresh dired buffer when file changed
 (setq dired-recursive-deletes 'always) ;; Single prompt when deleting recirsively in Dired
 (setq dired-recursive-copies 'always) ;;  Single prompt when copying recirsively in Dired
+(setq dired-dwim-target t) ;; dired move / copy files to other split by default (total cmdr style)
+(setq dired-listing-switches "-alFh")
 
 ;; ===================================
 ;; Shortcuts
