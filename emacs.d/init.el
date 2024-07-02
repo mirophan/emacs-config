@@ -15,7 +15,7 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-(use-package spacemacs-common
+(use-package spacemacs-theme
   :ensure spacemacs-theme
   :config (load-theme 'spacemacs-dark t))
 
@@ -30,6 +30,11 @@
   :ensure t
   :init
   (xclip-mode))
+
+(use-package csv-mode
+  :ensure t
+  :config
+  (add-hook 'csv-mode-hook 'csv-align-mode))
 
 ;; ===================================
 ;; Python IDE setup
