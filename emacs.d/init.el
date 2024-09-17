@@ -26,6 +26,7 @@
 (use-package markdown-mode
   :ensure t)
 
+;; make sure to also run sudo apt install xclip
 (use-package xclip
   :ensure t
   :init
@@ -56,10 +57,11 @@
   :init
   (global-flycheck-mode))
 
-(use-package py-autopep8
+(use-package blacken
   :ensure t
-  :config
-  (add-hook 'elpy-mode-hook 'py-autopep8-mode))
+  :hook (python-mode . blacken-mode)
+  :custom
+  (blacken-line-length 79))  ;; Adjust line length as needed
 
 ;; Enable Mamba support
 (use-package conda
@@ -103,6 +105,39 @@
 ;; ===================================
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-c r") 'query-replace)
+
+
+;; ===================================
+;; Backup configuration
+;; ===================================
+(setq version-control t     ;; Use version numbers for backups.
+      kept-new-versions 10  ;; Number of newest versions to keep.
+      kept-old-versions 2   ;; Number of oldest versions to keep.
+      delete-old-versions t ;; Don't ask to delete excess backup versions.
+      backup-by-copying t   ;; Copy all files, don't rename them.
+      version-control t     ;; version numbers for backup files
+      vc-make-backup-files t) ;; backup versioned files
+
+;; Default and per-save backups go here:
+(setq backup-directory-alist '(("" . "~/.emacs.d/backup/per-save")))
+
+(defun force-backup-of-buffer ()
+  ;; Make a special "per session" backup at the first save of each
+  ;; emacs session.
+  (when (not buffer-backed-up)
+    ;; Override the default parameters for per-session backups.
+    (let ((backup-directory-alist '(("" . "~/.emacs.d/backup/per-session")))
+          (kept-new-versions 3))
+      (backup-buffer)))
+  ;; Make a "per save" backup on each save.  The first save results in
+  ;; both a per-session and a per-save backup, to keep the numbering
+  ;; of per-save backups consistent.
+  (let ((buffer-backed-up nil))
+    (backup-buffer)))
+
+(add-hook 'before-save-hook  'force-backup-of-buffer)
+
+
 
 ;; Elpy customisation
 ;; Enhance elpy-goto-definition to run rgrep if failed
