@@ -26,6 +26,16 @@
 (use-package markdown-mode
   :ensure t)
 
+(use-package sql
+  :ensure t
+  :hook (sql-mode . my-sql-mode-setup) ; Add setup function to sql-mode
+  :config
+  (defun my-sql-mode-setup ()
+    "Set up custom configurations for sql-mode."
+    ;; Keybinding for running SQLFluff
+    (local-set-key (kbd "C-c C-l") 'run-sqlfluff-fix-on-buffer)))
+
+
 ;; make sure to also run sudo apt install xclip
 (use-package xclip
   :ensure t
@@ -99,6 +109,7 @@
 (setq dired-recursive-copies 'always) ;;  Single prompt when copying recirsively in Dired
 (setq dired-dwim-target t) ;; dired move / copy files to other split by default (total cmdr style)
 (setq dired-listing-switches "-alFh")
+(setq initial-scratch-message nil) ;; scratch buffer will start with no text
 
 ;; ===================================
 ;; Shortcuts
@@ -136,6 +147,24 @@
     (backup-buffer)))
 
 (add-hook 'before-save-hook  'force-backup-of-buffer)
+
+
+(defun run-sqlfluff-fix-on-buffer ()
+  "Run SQLFluff fix on the current buffer."
+  (interactive)
+  (let ((output-buffer (get-buffer-create "*SQLFluff Output*")))
+    ;; Clear the output buffer
+    (with-current-buffer output-buffer
+      (erase-buffer))
+    ;; Run SQLFluff fix
+    (let ((exit-code (call-process-region (point-min) (point-max)
+                                          "sqlfluff" nil output-buffer nil
+                                          "fix" "--dialect" "snowflake" "-")))
+      (if (zerop exit-code)
+          (message "SQLFluff: Fix applied successfully!")
+        (message "SQLFluff: Issues fixed partially or failed, check *SQLFluff Output* buffer."))
+      ;; Display the output buffer
+      (display-buffer output-buffer))))
 
 
 
