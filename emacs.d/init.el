@@ -15,9 +15,16 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-(use-package spacemacs-theme
-  :ensure spacemacs-theme
-  :config (load-theme 'spacemacs-dark t))
+(use-package modus-themes
+  :ensure t ;; Ensure the package is installed
+  :init
+  ;; Optional: Customize theme settings before loading
+  (setq modus-themes-bold-constructs t
+        modus-themes-italic-constructs nil
+        modus-themes-region '(bg-only))
+  :config
+  ;; Load the modus-vivendi theme
+  (load-theme 'modus-vivendi-tinted t))
 
 (use-package ace-window
   :ensure t
