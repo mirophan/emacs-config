@@ -15,16 +15,13 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-(use-package modus-themes
+
+(use-package gruvbox-theme
   :ensure t ;; Ensure the package is installed
-  :init
-  ;; Optional: Customize theme settings before loading
-  (setq modus-themes-bold-constructs t
-        modus-themes-italic-constructs nil
-        modus-themes-region '(bg-only))
   :config
-  ;; Load the modus-vivendi theme
-  (load-theme 'modus-vivendi-tinted t))
+  ;; Load the gruvbox-dark-medium theme
+  (load-theme 'gruvbox-dark-medium t))
+
 
 (use-package ace-window
   :ensure t
